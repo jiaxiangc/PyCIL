@@ -1,1 +1,1 @@
-python main.py --config exps/ewc.json
+python3 main.py --config exps/ewc.json

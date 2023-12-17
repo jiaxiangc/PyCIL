@@ -1,1 +1,1 @@
-python main.py --config exps/icarlscripts/train_icarl.sh.json
+python3 main.py --config exps/icarlscripts/train_icarl.sh.json

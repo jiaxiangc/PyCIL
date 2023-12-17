@@ -1,1 +1,1 @@
-python main.py --config exps/replay.json
+python3 main.py --config exps/replay.json
