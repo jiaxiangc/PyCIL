@@ -63,5 +63,8 @@ def get_model(model_name, args):
     elif name == "simplecil":
         from models.simplecil import SimpleCIL
         return SimpleCIL(args)
+    elif name == "dm_finetune":
+        from models.dm_finetune import DMFinetune
+        return DMFinetune(args)
     else:
         assert 0

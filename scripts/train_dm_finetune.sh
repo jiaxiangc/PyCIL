@@ -1,0 +1,1 @@
+python3 main.py --config exps/dm_finetune.json

@@ -11,7 +11,6 @@ import os
 def train(args):
     seed_list = copy.deepcopy(args["seed"])
     device = copy.deepcopy(args["device"])
-
     for seed in seed_list:
         args["seed"] = seed
         args["device"] = device
@@ -55,7 +54,6 @@ def _train(args):
         args["increment"],
     )
     model = factory.get_model(args["model_name"], args)
-
     cnn_curve, nme_curve = {"top1": [], "top5": []}, {"top1": [], "top5": []}
     for task in range(data_manager.nb_tasks):
         logging.info("All params: {}".format(count_parameters(model._network)))
@@ -63,7 +61,10 @@ def _train(args):
             "Trainable params: {}".format(count_parameters(model._network, True))
         )
         model.incremental_train(data_manager)
-        cnn_accy, nme_accy = model.eval_task()
+        if not args["model_name"].split("_")[0] == "dm":
+            cnn_accy, nme_accy = model.eval_task()
+        else:
+            cnn_accy, nme_accy = None, None
         model.after_task()
 
         if nme_accy is not None:
@@ -86,7 +87,7 @@ def _train(args):
 
             logging.info("Average Accuracy (CNN): {}".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"])))
             logging.info("Average Accuracy (NME): {}".format(sum(nme_curve["top1"])/len(nme_curve["top1"])))
-        else:
+        elif cnn_accy is not None:
             logging.info("No NME accuracy.")
             logging.info("CNN: {}".format(cnn_accy["grouped"]))
 
@@ -98,6 +99,8 @@ def _train(args):
 
             print('Average Accuracy (CNN):', sum(cnn_curve["top1"])/len(cnn_curve["top1"]))
             logging.info("Average Accuracy (CNN): {}".format(sum(cnn_curve["top1"])/len(cnn_curve["top1"])))
+        else:
+            logging.info("Continual to train diffusion model")
 
     
 def _set_device(args):

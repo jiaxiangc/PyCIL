@@ -191,7 +191,6 @@ class DataManager(object):
         self._train_data, self._train_targets = idata.train_data, idata.train_targets
         self._test_data, self._test_targets = idata.test_data, idata.test_targets
         self.use_path = idata.use_path
-
         # Transforms
         self._train_trsf = idata.train_trsf
         self._test_trsf = idata.test_trsf
